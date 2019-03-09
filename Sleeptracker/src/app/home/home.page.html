@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Sleep Analysis App
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+    <ion-item id="gm">
+        <ion-icon name="bed"></ion-icon>
+        <ion-label id="titleBold">Good Morning! Log your sleep:</ion-label>
+    </ion-item>
+
+  <!-- Datetime input for bed time -->
+  <ion-item>
+    <ion-label>Sleep Time:</ion-label>
+    <ion-icon name = "moon"></ion-icon>
+    <ion-datetime required placeholder = "Bed time" (ionCancel)="clearStart()" displayFormat="MMM/DD/YYYY HH mm" [(ngModel)]="sleepStartTime"  minuteValues = "0,5,10,15,20,25,30,35,40,45,50,55"></ion-datetime>
+  </ion-item>
+
+  <!-- Datetime input for wake up time -->
+  <ion-item>
+      <ion-label >Wake up Time:</ion-label>
+      <ion-icon name = "sunny"></ion-icon>
+      <ion-datetime (ionCancel)="clearEnd()" placeholder = "Wake time" displayFormat="MMM/DD/YYYY HH mm" [(ngModel)]="sleepEndTime" minuteValues = "0,5,10,15,20,25,30,35,40,45,50,55"></ion-datetime>
+  </ion-item>
+    <ion-button expand="full" (click)="sleepInfo(sleepStartTime, sleepEndTime)">Send Sleep Time Data</ion-button>
+
+    <ion-row style="height: 15px"></ion-row>
+
+    <ion-item>
+        <ion-label id="titleBold">Sleepiness Level:</ion-label>
+    </ion-item>
+
+    <!-- Range slider for Stanford Sleepiness Scale -->
+    <ion-item> 
+        <ion-range (ionChange)="changeSliderInfo(sleepiness)" min="1" max="7" step="1" snaps="true" [(ngModel)]="sleepiness">
+            <ion-icon slot="start" name="battery-charging" id="batteryicon"></ion-icon>
+            <ion-icon slot="end" name="battery-dead" id="batteryicon"></ion-icon>
+        </ion-range>
+    </ion-item>
+
+    <ion-button expand="full" (click)="sendSleepiness(sleepiness)">Log Sleepiness</ion-button>
+
+    <!-- Changes text field for appropriate slider info -->
+    <ion-item id="sleeptext">{{sleepinessText}}</ion-item>
+
+    <ion-button expand="full" (click)="displaySleepTime()">View Sleep Time</ion-button>
+    <ion-button expand="full" (click)="displayStanford()">View Stanford Sleepiness</ion-button>
+    <ion-button expand="full" (click)="hideInfo()">Hide Information</ion-button>
+    
+    <ion-row style="height: 10px"></ion-row>
+
+    <!-- Displays sleep data after clicking view data button -->
+    <ion-list>
+    <ion-label>{{sleepTimeTitle}}</ion-label>
+    <ion-card *ngFor="let data of sleepString">{{data}}</ion-card>
+    </ion-list> 
+
+    
+    <ion-list>
+    <ion-label id="stanfordText">{{stanfordTitle}}</ion-label>
+    <ion-card *ngFor="let stanfordData of stanfordString"></ion-card>
+    </ion-list> 
+
+</ion-content>
+
